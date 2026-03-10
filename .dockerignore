@@ -1,0 +1,12 @@
+.git
+.claude
+.env
+.env.backup
+.idea
+.vscode
+node_modules
+vendor
+storage/logs/*
+tests
+phpunit.xml
+*.md
