@@ -13,7 +13,9 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'OnBarber'),
+
+    'barbman_token' => env('BARBMAN_TOKEN'),
 
     /*
     |--------------------------------------------------------------------------
