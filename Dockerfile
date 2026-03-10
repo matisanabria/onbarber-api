@@ -24,7 +24,7 @@ RUN apk add --no-cache \
     nginx \
     supervisor \
     sqlite-libs \
-    && docker-php-ext-install pdo_mysql pdo_pgsql opcache \
+    && docker-php-ext-install pdo_mysql opcache \
     && rm -rf /var/cache/apk/*
 
 # PHP production config
@@ -33,6 +33,9 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY docker/php.ini "$PHP_INI_DIR/conf.d/99-onbarber.ini"
 COPY docker/nginx.conf /etc/nginx/http.d/default.conf
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 WORKDIR /var/www/html
 
@@ -47,11 +50,7 @@ RUN mkdir -p storage/framework/{sessions,views,cache} \
     && chown -R www-data:www-data storage bootstrap/cache database \
     && chmod -R 775 storage bootstrap/cache
 
-# Optimize Laravel for production
-RUN php artisan config:clear \
-    && php artisan route:clear \
-    && php artisan view:clear
-
 EXPOSE 80
 
+ENTRYPOINT ["entrypoint.sh"]
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
