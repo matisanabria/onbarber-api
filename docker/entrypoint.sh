@@ -7,6 +7,5 @@ php artisan migrate --force
 # Cache config/routes/views for performance (env vars available at runtime)
 php artisan config:cache
 php artisan route:cache
-php artisan view:cache
 
 exec "$@"
