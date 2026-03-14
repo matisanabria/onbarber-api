@@ -11,7 +11,7 @@ class BarberController extends Controller
 {
     public function index(): JsonResponse
     {
-        $barbers = Barber::active()->get(['id', 'name', 'phone']);
+        $barbers = Barber::active()->get(['id', 'name', 'phone', 'photo_url']);
 
         return response()->json($barbers);
     }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Barber extends Model
 {
-    protected $fillable = ['name', 'phone', 'active'];
+    protected $fillable = ['name', 'phone', 'photo_url', 'active'];
 
     protected $casts = [
         'active' => 'boolean',
