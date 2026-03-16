@@ -35,8 +35,10 @@ class BarberController extends Controller
             if (! $override->is_open) {
                 return response()->json(['slots' => []]);
             }
-            $openTime  = $override->open_time;
-            $closeTime = $override->close_time;
+            $openTime   = $override->open_time;
+            $closeTime  = $override->close_time;
+            $breakStart = $override->break_start;
+            $breakEnd   = $override->break_end;
         } else {
             $schedule = $barber->schedules()
                 ->where('day_of_week', $dow)
@@ -45,8 +47,10 @@ class BarberController extends Controller
             if (! $schedule || ! $schedule->is_open) {
                 return response()->json(['slots' => []]);
             }
-            $openTime  = $schedule->open_time;
-            $closeTime = $schedule->close_time;
+            $openTime   = $schedule->open_time;
+            $closeTime  = $schedule->close_time;
+            $breakStart = $schedule->break_start;
+            $breakEnd   = $schedule->break_end;
         }
 
         // Build hourly slots
@@ -54,7 +58,15 @@ class BarberController extends Controller
         $current = Carbon::parse($date->format('Y-m-d') . ' ' . $openTime);
         $close   = Carbon::parse($date->format('Y-m-d') . ' ' . $closeTime);
 
+        $breakFrom = $breakStart ? Carbon::parse($date->format('Y-m-d') . ' ' . $breakStart) : null;
+        $breakTo   = $breakEnd   ? Carbon::parse($date->format('Y-m-d') . ' ' . $breakEnd)   : null;
+
         while ($current->copy()->addHour()->lte($close)) {
+            // Skip slots that fall within the break period
+            if ($breakFrom && $breakTo && $current->gte($breakFrom) && $current->lt($breakTo)) {
+                $current->addHour();
+                continue;
+            }
             $slots[] = $current->format('H:i');
             $current->addHour();
         }
