@@ -59,7 +59,7 @@ class BarberController extends Controller
             $current->addHour();
         }
 
-        // Remove already-booked slots (non-cancelled)
+        // Get booked slots (non-cancelled)
         $booked = $barber->appointments()
             ->whereDate('appointment_date', $date)
             ->whereNotIn('status', ['cancelled'])
@@ -67,8 +67,11 @@ class BarberController extends Controller
             ->map(fn ($t) => substr($t, 0, 5)) // "HH:MM:SS" → "HH:MM"
             ->toArray();
 
-        $available = array_values(array_diff($slots, $booked));
+        $result = array_map(fn ($time) => [
+            'time'      => $time,
+            'available' => ! in_array($time, $booked),
+        ], $slots);
 
-        return response()->json(['slots' => $available]);
+        return response()->json(['slots' => $result]);
     }
 }

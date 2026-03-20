@@ -15,6 +15,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'barbman.auth' => \App\Http\Middleware\BarbmanAuth::class,
         ]);
 
+        $middleware->api(prepend: [
+            \Illuminate\Http\Middleware\HandleCors::class,
+        ]);
+
         $middleware->api(append: [
             \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
         ]);
