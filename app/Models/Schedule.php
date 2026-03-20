@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Schedule extends Model
 {
-    protected $fillable = ['barber_id', 'day_of_week', 'is_open', 'open_time', 'close_time'];
+    protected $fillable = ['barber_id', 'day_of_week', 'is_open', 'open_time', 'close_time', 'break_start', 'break_end'];
 
     protected $casts = [
         'is_open' => 'boolean',

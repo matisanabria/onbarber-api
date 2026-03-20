@@ -19,9 +19,8 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Http\Middleware\HandleCors::class,
         ]);
 
-        $middleware->api(append: [
-            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
-        ]);
+        // Rate limiting handled per-route, not globally (Cloudflare protects at edge)
+        $middleware->api(append: []);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(fn () => true);
