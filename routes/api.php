@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\BarberController;
+use App\Http\Controllers\ScheduleOverrideController;
 use Illuminate\Support\Facades\Route;
 
 // Public endpoints
@@ -14,4 +15,8 @@ Route::post('/appointments', [AppointmentController::class, 'store'])
 Route::middleware(['barbman.auth'])->group(function () {
     Route::get('/appointments', [AppointmentController::class, 'index']);
     Route::patch('/appointments/{id}', [AppointmentController::class, 'update']);
+
+    Route::get('/barbers/{barberId}/overrides', [ScheduleOverrideController::class, 'index']);
+    Route::post('/schedule-overrides', [ScheduleOverrideController::class, 'store']);
+    Route::delete('/schedule-overrides/{id}', [ScheduleOverrideController::class, 'destroy']);
 });
