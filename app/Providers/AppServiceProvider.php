@@ -17,6 +17,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         RateLimiter::for('api', function (Request $request) {
+            if ($request->bearerToken()) {
+                return Limit::none();
+            }
+
             return Limit::perMinute(60)->by($request->ip());
         });
 

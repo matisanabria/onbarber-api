@@ -5,11 +5,13 @@ use App\Http\Controllers\BarberController;
 use App\Http\Controllers\ScheduleOverrideController;
 use Illuminate\Support\Facades\Route;
 
-// Public endpoints
-Route::get('/barbers', [BarberController::class, 'index']);
-Route::get('/barbers/{id}/slots', [BarberController::class, 'slots']);
-Route::post('/appointments', [AppointmentController::class, 'store'])
-    ->middleware('throttle:booking');
+// Public endpoints (rate-limited, Barbman bypasses via bearer token)
+Route::middleware('throttle:api')->group(function () {
+    Route::get('/barbers', [BarberController::class, 'index']);
+    Route::get('/barbers/{id}/slots', [BarberController::class, 'slots']);
+    Route::post('/appointments', [AppointmentController::class, 'store'])
+        ->middleware('throttle:booking');
+});
 
 // Barbman (protected — no rate limit, token-authenticated)
 Route::middleware(['barbman.auth'])->group(function () {
