@@ -7,6 +7,8 @@
 REST API for **OnBarber**, an appointment booking system for a barbershop in Encarnación, Paraguay. It exposes public endpoints for clients to browse barbers and book time slots, and protected endpoints for the admin panel (Barbman) to manage appointments and schedules.
 
 > **Frontend repository:** [onbarber-web](https://github.com/matisanabria/onbarber-web/) — built with Astro 6 + React 19 + Tailwind CSS 4.
+>
+> **Admin panel:** [barbman](https://github.com/matisanabria/barbman) — manages appointments and schedules via the protected endpoints.
 
 ---
 
