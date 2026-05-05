@@ -4,7 +4,7 @@
     "type": "project",
     "description": "API REST para sistema de turnos OnBarber.",
     "keywords": ["onbarber", "barberia", "turnos"],
-    "license": "MIT",
+    "license": "Apache-2.0",
     "require": {
         "php": "^8.2",
         "laravel/framework": "^12.0",

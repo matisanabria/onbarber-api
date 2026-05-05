@@ -12,6 +12,8 @@
 /.vscode
 /.zed
 /.claude
+CLAUDE.md
+/database/seeders/
 /auth.json
 /node_modules
 /public/build
